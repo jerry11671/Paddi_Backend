@@ -1,0 +1,5 @@
+paddyenv
+.env
+env
+vercel.json
+venv
