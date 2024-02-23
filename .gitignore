@@ -4,3 +4,5 @@ env
 vercel.json
 venv
 red
+test
+db.sqlite3

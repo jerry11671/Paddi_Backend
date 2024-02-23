@@ -10,5 +10,5 @@ router.register(r'health_goals', HealthGoalAPIView)
 urlpatterns = [
     path('', include(router.urls)),
     path('assessment_create/', AssessmentCreateAPIView.as_view()),
-    path('assessment_list/<slug:slug>/', AssessmentGetAPIView.as_view()),
+    path('assessment_list/', AssessmentGetAPIView.as_view()),
 ]

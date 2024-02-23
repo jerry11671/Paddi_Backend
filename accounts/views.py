@@ -11,10 +11,13 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import AllowAny , IsAuthenticated
 from django.contrib.auth import authenticate, login
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from .models import User
 from .serializers import UserRegistrationSerializer, UserSerializer
 from django.urls import reverse
+from assessment.models import Assessment
+from assessment.serializers import AssessmentSerializer
 
 
 class UserRegistrationView(GenericAPIView):
@@ -41,6 +44,8 @@ class LoginView(APIView):
 
         # Authenticate the user
         user = authenticate(request, email=email, password=password)
+        qs = Assessment.objects.get(user=user)
+        serializer = AssessmentSerializer(qs)
 
         if user is not None:
             # If authentication is successful, create or retrieve a token
@@ -53,8 +58,10 @@ class LoginView(APIView):
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
                 "email": user.email,
+                'first_name': user.first_name,
                 "id": user.id,
-                "isAdmin": user.is_staff  # Assuming 'is_staff' signifies admin status
+                # "isAdmin": user.is_staff  # Assuming 'is_staff' signifies admin status
+                'assessment_data': serializer.data,
                 }
  
             return Response(response_data, status=status.HTTP_200_OK)
@@ -73,13 +80,14 @@ class LogoutView(APIView):
 
     # So authentication credentials are not required to blacklist a token
     # permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
 
     def post(self, request, *args, **kwargs):
         refresh_token = request.data.get('refresh_token') or request.data.get('refresh')
         if not refresh_token:
             return Response({'error':'Request token not provided'}, status=status.HTTP_400_BAD_REQUEST)
         try:
-            token = RefreshToken(refresh_token)
+            token = RefreshToken(token=refresh_token)
             token.blacklist()
             return Response({'message':'User Successfully logged out'}, status=status.HTTP_200_OK)
         except Exception as e:

@@ -9,12 +9,11 @@ class HealthGoalSerializer(serializers.ModelSerializer):
 
 
 class AssessmentSerializer(serializers.ModelSerializer):
+    mental_score = serializers.SerializerMethodField()
     class Meta:
         model = Assessment
-        fields = "__all__"
+        exclude = ['user']
 
-    # def save(self, data):
-    #     user = self.request.user
-    #     qs = 
-    #     health_goal = data['health_goal']
+    def get_mental_score(self, obj):
+        return obj.calculate_mental_score()
 
