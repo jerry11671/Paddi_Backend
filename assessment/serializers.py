@@ -1,12 +1,6 @@
 from rest_framework import serializers
 
-from .models import HealthGoal, Assessment
-
-class HealthGoalSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = HealthGoal
-        fields = ['id', 'user', 'health_goal', 'slug']
-
+from .models import Assessment
 
 class AssessmentSerializer(serializers.ModelSerializer):
     mental_score = serializers.SerializerMethodField()

@@ -3,16 +3,7 @@ from accounts.models import User
 from django.template.defaultfilters import slugify
 from .utils import min_max_validator
 
-
-class HealthGoal(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    slug = models.SlugField(null=True, blank=True)
-    # name = models.CharField(choices=HEALTH_GOAL_CHOICES, max_length=250)
-
-    def __str__(self):
-        return self.health_goal
     
-
 class Assessment(models.Model):
     
     HEALTH_GOAL_CHOICES = (

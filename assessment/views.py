@@ -4,15 +4,8 @@ from rest_framework import generics, viewsets, views
 from rest_framework import permissions
 from rest_framework.response import Response
 
-from .serializers import HealthGoalSerializer, AssessmentSerializer
-from .models import HealthGoal, Assessment
-
-
-
-class HealthGoalAPIView(viewsets.ModelViewSet):
-    serializer_class  = HealthGoalSerializer
-    queryset = HealthGoal.objects.all()
-    permission_classes = [permissions.IsAdminUser]
+from .serializers import AssessmentSerializer
+from .models import  Assessment
 
 
 class AssessmentCreateAPIView(generics.CreateAPIView):

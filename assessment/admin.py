@@ -1,5 +1,4 @@
 from django.contrib import admin
-from .models import HealthGoal, Assessment
+from .models import Assessment
 
-admin.site.register(HealthGoal)
 admin.site.register(Assessment)
