@@ -9,8 +9,8 @@ schema_view = get_swagger_view(title='MentalPaddy')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('assessment/', include('assessment.urls')),
     path('api_doc/', schema_view),
     path('accounts/', include('accounts.urls')),
-    path('assessment/', include('assessment.urls')),
     path('journal/', include('journal.urls')),
 ]

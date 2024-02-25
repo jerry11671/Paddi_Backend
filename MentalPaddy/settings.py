@@ -47,15 +47,16 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'drf_yasg',
     'corsheaders',
+    'rest_framework_simplejwt.token_blacklist',
 
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -144,7 +145,7 @@ AUTH_USER_MODEL = 'accounts.User'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
        
     ),
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'     
@@ -167,6 +168,11 @@ OPENAI_API_KEY = "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"
 # } 
 
 CORS_ALLOW_ALL_ORIGINS = True 
+CORS_ALLOW_CREDENTIALS = True
+# CSRF_COOKIE_SECURE = False
+# CSRF_COOKIE_HTTPONLY = True
+# SESSION_COOKIE_SECURE = False
+# CSRF_TRUSTED_ORIGINS= "http://127.0.0.1:8000/"
 
 CORS_ALLOW_METHODS = (
     "DELETE",
