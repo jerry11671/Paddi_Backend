@@ -19,7 +19,6 @@ class GetCreateJournal(APIView):
 
     def get(self, request):
         journal_qs = Journal.objects.filter(journal_user=self.request.user.id)
-        print(journal_qs)
         serializer = JournalSerializer(journal_qs, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
