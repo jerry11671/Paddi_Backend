@@ -52,8 +52,12 @@ class LoginView(APIView):
         if user is not None:
             # If authentication is successful, create or retrieve a token
             refresh = RefreshToken.for_user(user)
-            qs = Assessment.objects.get(user=user)
-            serializer = AssessmentSerializer(qs)
+            try:
+                qs = Assessment.objects.get(user=user)
+                serializer = AssessmentSerializer(qs)
+                print(serializer)
+            except Assessment.DoesNotExist:
+                serializer = AssessmentSerializer()
 
             login(request, user)  # Optional: Log the user in
             response_data = {
