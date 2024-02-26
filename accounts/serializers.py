@@ -8,7 +8,7 @@ from assessment.models import Assessment
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ['phone_num', 'school', 'address', 'profile_pic']
+        fields = ['phone_number', 'school', 'address', 'profile_pic']
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(write_only=True, required=True)
@@ -36,7 +36,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data.pop('password2', None)
-        print(validated_data.pop('profile', None))
+        profile_data = print(validated_data.pop('profile', None))
         if get_user_model().objects.filter(email=self.validated_data['email']):
             raise serializers.ValidationError({'error': 'Email already exists!'})
         
