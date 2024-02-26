@@ -60,6 +60,18 @@ class User(PermissionsMixin, AbstractBaseUser):
     @property
     def token(self):
         pass
+
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone_number = models.CharField(max_length=15)
+    school = models.CharField(max_length=100)
+    address = models.TextField()
+    profile_pic = models.ImageField(upload_to='./profile_pic')
+
+    def __str__(self):
+        return self.user.first_name
     
 
     
