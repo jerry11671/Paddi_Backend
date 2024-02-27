@@ -1,0 +1,674 @@
+openapi: 3.0.3
+info:
+  title: ''
+  version: 0.0.0
+paths:
+  /accounts/all_users/:
+    get:
+      operationId: accounts_all_users_retrieve
+      tags:
+      - accounts
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /accounts/auth/get_token/:
+    post:
+      operationId: accounts_auth_get_token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /accounts/auth/login/:
+    post:
+      operationId: accounts_auth_login_create
+      tags:
+      - accounts
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /accounts/auth/login/refresh/:
+    post:
+      operationId: accounts_auth_login_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /accounts/auth/logout/:
+    post:
+      operationId: accounts_auth_logout_create
+      description: View that accepts a refresh token and blacklists it as a form of
+        logout mechanism
+      tags:
+      - accounts
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /accounts/auth/signup/:
+    post:
+      operationId: accounts_auth_signup_create
+      tags:
+      - accounts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegistration'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRegistration'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRegistration'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRegistration'
+          description: ''
+  /accounts/profile_update/:
+    put:
+      operationId: accounts_profile_update_update
+      tags:
+      - accounts
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /api_doc/:
+    get:
+      operationId: api_doc_retrieve
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - corejson
+          - openapi
+          - swagger
+      tags:
+      - api_doc
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /assessment/assessment_create/:
+    post:
+      operationId: assessment_assessment_create_create
+      tags:
+      - assessment
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Assessment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Assessment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Assessment'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assessment'
+          description: ''
+  /assessment/assessment_list/:
+    get:
+      operationId: assessment_assessment_list_list
+      tags:
+      - assessment
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Assessment'
+          description: ''
+  /journal/{id}/delete/:
+    delete:
+      operationId: journal_delete_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - journal
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '204':
+          description: No response body
+  /journal/{id}/update/:
+    put:
+      operationId: journal_update_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - journal
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /journal/all_journals/:
+    get:
+      operationId: journal_all_journals_retrieve
+      tags:
+      - journal
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: journal_all_journals_create
+      tags:
+      - journal
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /journal/create/:
+    get:
+      operationId: journal_create_retrieve
+      tags:
+      - journal
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+    post:
+      operationId: journal_create_create
+      tags:
+      - journal
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /journal/ratings/{month}/:
+    get:
+      operationId: journal_ratings_retrieve
+      parameters:
+      - in: path
+        name: month
+        schema:
+          type: integer
+        required: true
+      tags:
+      - journal
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /journal/total/{month}/:
+    get:
+      operationId: journal_total_retrieve
+      parameters:
+      - in: path
+        name: month
+        schema:
+          type: integer
+        required: true
+      tags:
+      - journal
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          description: No response body
+  /schema/:
+    get:
+      operationId: schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - ug
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+components:
+  schemas:
+    Assessment:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        mental_score:
+          type: string
+          readOnly: true
+        health_goal:
+          $ref: '#/components/schemas/HealthGoalEnum'
+        gender:
+          $ref: '#/components/schemas/GenderEnum'
+        age:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        weight:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        mood:
+          allOf:
+          - $ref: '#/components/schemas/MoodEnum'
+          minimum: -9223372036854775808
+          maximum: 9223372036854775807
+        is_professional_help:
+          allOf:
+          - $ref: '#/components/schemas/IsProfessionalHelpEnum'
+          minimum: -9223372036854775808
+          maximum: 9223372036854775807
+        is_physical_distress:
+          allOf:
+          - $ref: '#/components/schemas/IsPhysicalDistressEnum'
+          minimum: -9223372036854775808
+          maximum: 9223372036854775807
+        sleep_quality:
+          allOf:
+          - $ref: '#/components/schemas/SleepQualityEnum'
+          minimum: -9223372036854775808
+          maximum: 9223372036854775807
+        medications:
+          allOf:
+          - $ref: '#/components/schemas/MedicationsEnum'
+          minimum: -9223372036854775808
+          maximum: 9223372036854775807
+        other_mental_symptom:
+          type: string
+        stress_level:
+          allOf:
+          - $ref: '#/components/schemas/StressLevelEnum'
+          minimum: 0
+          maximum: 9223372036854775807
+      required:
+      - age
+      - gender
+      - health_goal
+      - id
+      - is_physical_distress
+      - is_professional_help
+      - medications
+      - mental_score
+      - mood
+      - other_mental_symptom
+      - sleep_quality
+      - stress_level
+      - weight
+    GenderEnum:
+      enum:
+      - male
+      - female
+      - other
+      type: string
+      description: |-
+        * `male` - Male
+        * `female` - Female
+        * `other` - other
+    HealthGoalEnum:
+      enum:
+      - I wanna reduce stress
+      - I wanna try AI Therapy
+      - I want to cope with trauma
+      - I want to be a better person
+      - Just trying out the website
+      type: string
+      description: |-
+        * `I wanna reduce stress` - I wanna reduce stress
+        * `I wanna try AI Therapy` - I wanna try AI Therapy
+        * `I want to cope with trauma` - I want to cope with trauma
+        * `I want to be a better person` - I want to be a better person
+        * `Just trying out the website` - Just trying out the website
+    IsPhysicalDistressEnum:
+      enum:
+      - 2
+      - 1
+      type: integer
+      description: |-
+        * `2` - No
+        * `1` - Yes
+    IsProfessionalHelpEnum:
+      enum:
+      - 2
+      - 1
+      type: integer
+      description: |-
+        * `2` - No
+        * `1` - Yes
+    MedicationsEnum:
+      enum:
+      - 4
+      - 3
+      - 2
+      - 1
+      type: integer
+      description: |-
+        * `4` - Prescribed Medication
+        * `3` - Pharmacist
+        * `2` - I'm not taking any
+        * `1` - Prefer not to say
+    MoodEnum:
+      enum:
+      - 5
+      - 4
+      - 3
+      - 2
+      - 1
+      type: integer
+      description: |-
+        * `5` - Over Joyed
+        * `4` - Happy
+        * `3` - Neutral
+        * `2` - Sad
+        * `1` - Depressed
+    SleepQualityEnum:
+      enum:
+      - 5
+      - 4
+      - 3
+      - 2
+      - 1
+      type: integer
+      description: |-
+        * `5` - Excellent
+        * `4` - Good
+        * `3` - Poor
+        * `2` - Fair
+        * `1` - Worse
+    StressLevelEnum:
+      enum:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      type: integer
+      description: |-
+        * `1` - 1
+        * `2` - 2
+        * `3` - 3
+        * `4` - 4
+        * `5` - 5
+    TokenObtainPair:
+      type: object
+      properties:
+        email:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - email
+      - password
+      - refresh
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+    UserRegistration:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          title: Email_address
+          maxLength: 225
+        first_name:
+          type: string
+          maxLength: 225
+        last_name:
+          type: string
+          nullable: true
+          maxLength: 225
+        password:
+          type: string
+          writeOnly: true
+          maxLength: 128
+        password2:
+          type: string
+          writeOnly: true
+      required:
+      - email
+      - first_name
+      - password
+      - password2
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

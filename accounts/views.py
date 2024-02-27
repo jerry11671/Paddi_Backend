@@ -35,7 +35,7 @@ class UserRegistrationView(GenericAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
-class LoginView(APIView):
+class LoginView(GenericAPIView):
     # authentication_classes = [SessionAuthentication]
     permission_classes = [AllowAny]
     # csrf_exempt = True
@@ -83,7 +83,7 @@ class LoginView(APIView):
 # effect on the access token. In the future, the access token's
 # lifespan would be reduced to restrict acess to both tokens
 # within a reasonable timeframe.
-class LogoutView(APIView):
+class LogoutView(GenericAPIView):
     """View that accepts a refresh token and blacklists it as a form of logout mechanism"""
 
     # So authentication credentials are not required to blacklist a token
@@ -103,7 +103,7 @@ class LogoutView(APIView):
             return Response({'error':str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
-class GetAllUsers(APIView):
+class GetAllUsers(GenericAPIView):
     def get(self, request):
         try:
             qs = User.objects.all()
@@ -115,7 +115,7 @@ class GetAllUsers(APIView):
         serializer = UserSerializer(qs, many=True)
         return Response(serializer.data)
     
-class UpdateProfileView(APIView):
+class UpdateProfileView(GenericAPIView):
     def put(self, request):
         profile = Profile.objects.get(user=self.request.user.id)
         data = request.data

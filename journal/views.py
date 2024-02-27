@@ -3,7 +3,7 @@ from django.shortcuts import render
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.decorators import api_view
-from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
 from rest_framework.response import Response
 from rest_framework import permissions
 
@@ -14,7 +14,7 @@ from datetime import datetime
 from django.db.models import Count
 
 
-class GetCreateJournal(APIView):
+class GetCreateJournal(GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
@@ -32,7 +32,7 @@ class GetCreateJournal(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class UpdateJournal(APIView):
+class UpdateJournal(GenericAPIView):
     def put(self, request, pk):
         user_obj = self.request.user.id
         data = request.data
@@ -46,7 +46,7 @@ class UpdateJournal(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
-class DeleteJournal(APIView):
+class DeleteJournal(GenericAPIView):
     def delete(self, request, pk):
         user_obj = self.request.user.id
         qs = Journal.objects.filter(journal_user=user_obj, pk=pk)
@@ -55,7 +55,7 @@ class DeleteJournal(APIView):
 
 
   
-class GetMonthlyJournal(APIView):
+class GetMonthlyJournal(GenericAPIView):
     def get(self, request, month):
         try:
             month=int(month)
@@ -77,7 +77,7 @@ class GetMonthlyJournal(APIView):
 
 
 
-class GetJournalRatings(APIView):
+class GetJournalRatings(GenericAPIView):
     def get(self, request, month):
         journal_user = self.request.user.id
         journals = Journal.objects.filter(journal_user=journal_user, created_at__month=month).annotate(day=Count('created_at__day')).values('day', 'journal_rating')
