@@ -27,10 +27,13 @@ class UserRegistrationView(GenericAPIView):
         data = request.data 
         serializer = UserRegistrationSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            user = serializer.save()
+            token = RefreshToken.for_user(user)
             return Response({
                 'data': serializer.data,
-                'message': 'Account successfully created'
+                'message': 'Account successfully created',
+                'refresh': str(token),
+                'access': str(token.access_token),
             }, status = status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -55,9 +58,11 @@ class LoginView(GenericAPIView):
             try:
                 qs = Assessment.objects.get(user=user)
                 serializer = AssessmentSerializer(qs)
-                print(serializer)
+                profile_qs = Profile.objects.get(user=user)
+                profile_serializer = ProfileSerializer(profile_qs)
             except Assessment.DoesNotExist:
                 serializer = AssessmentSerializer()
+                profile_serializer = ProfileSerializer()
 
             login(request, user)  # Optional: Log the user in
             response_data = {
@@ -70,6 +75,7 @@ class LoginView(GenericAPIView):
                 "id": user.id,
                 # "isAdmin": user.is_staff  # Assuming 'is_staff' signifies admin status
                 'assessment_data': serializer.data,
+                'profile_data': profile_serializer.data
                 }
  
             return Response(response_data, status=status.HTTP_200_OK)
