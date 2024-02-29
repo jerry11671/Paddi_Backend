@@ -24,6 +24,10 @@ class GetCreateJournal(GenericAPIView):
 
     def post(self, request):
         request.data['journal_user'] = self.request.user.id
+        if request.data['feeling'] == 'overjoyed' or request.data['feeling'] == 'happy' or request.data['feeling'] == 'neutral':
+            request.data['rating'] = 'positive'
+        else:
+            request.data['rating'] = 'negative'
         serializer = JournalSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

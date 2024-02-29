@@ -5,16 +5,19 @@ from .models import Journal
 class JournalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Journal
-        fields = ['journal_user', 'title', 'entry', 'stress_level', 'current_emotion', 'whats_stressing_you', 'created_at', 'updated_at']
+        fields = ['id', 'journal_user', 'journal_text', 'feeling', 'mood', 'rating', 'created_at', 'updated_at']
+
+
+        def create(self, validated_data):
+            journal = Journal.objects.create(journal_text=validated_data['journal_text'], feeling=validated_data['feeling'], mood=validated_data['mood'], rating=validated_data['rating'])
+            return journal
 
         
         def update(self, instance, **validated_data):
-            instance.title = validated_data.get('title', instance.title)
-            instance.entry = validated_data.get('entry', instance.entry)
-            instance.stress_level = validated_data.get('stress_level', instance.stress_level)
-            instance.current_emotion = validated_data.get('current_emotion', instance.current_emotion)
-            instance.whats_stressing_you = validated_data.get('whats_stressing_you', instance.whats_stressing_you)
-
+            instance.journal_text = validated_data.get('title', instance.journal_text)
+            instance.feeling = validated_data.get('entry', instance.feeling)
+            instance.mood = validated_data.get('stress_level', instance.mood)
+            
             instance.save()
             return instance
 
