@@ -5,6 +5,7 @@ from django.contrib.auth.models import (
     BaseUserManager,
 )
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password, **extra_fields):
@@ -32,14 +33,12 @@ class UserManager(BaseUserManager):
     
     
 class User(PermissionsMixin, AbstractBaseUser):
-    # by default django uses auto increment for the id
-    # uncomment org_id when organization model has been created
     first_name = models.CharField(("first name"), max_length=225)
     last_name = models.CharField(("last_name"), max_length=225, blank=True, null=True)
     email = models.EmailField(("email_address"), max_length=225, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    is_active = models.BooleanField(default=True)  # Add is_active field
+    is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     groups = models.ManyToManyField(
         'auth.Group', verbose_name='groups', blank=True, related_name='custom_users_groups')
@@ -54,21 +53,20 @@ class User(PermissionsMixin, AbstractBaseUser):
         verbose_name = "User"
         verbose_name_plural = "Users"
 
-    def __str__(self) -> str:
-        return f"{self.first_name} {self.last_name}"
+    # def __str__(self) -> str:
+    #     return f"{self.first_name} {self.last_name}"
     
     @property
     def token(self):
         pass
 
 
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    phone_number = models.CharField(max_length=15)
-    school = models.CharField(max_length=100)
-    address = models.TextField()
-    profile_pic = models.ImageField(upload_to='./profile_pic')
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
+    school = models.CharField(max_length=100, null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
+    profile_pic = models.URLField(null=True, blank=True)
 
     def __str__(self):
         return self.user.first_name

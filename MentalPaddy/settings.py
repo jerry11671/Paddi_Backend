@@ -3,23 +3,23 @@ from datetime import timedelta
 
 import dj_database_url
 import environ
-# from dotenv import load_dotenv
 import os
 
-# load_dotenv()
-
 env = environ.Env()
-environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+environ.Env.read_env(
+    os.path.join(BASE_DIR, '.env')
+)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = 'django-insecure-4%cxfn$p&o&g&6b+_wwz(gyg8_y8$1qryt*l9*kyu7e0cho&sr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -178,15 +178,6 @@ SIMPLE_JWT = {
 
 OPENAI_API_KEY = "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"
 
-# AUTHENTICATION_BACKENDS = [
-#     'django.contrib.auth.backends.ModelBackend',
-#     'users.backends.CustomBackend',
-# ]
-
-# REST_FRAMEWORK = {
-#     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema' 
-# } 
-
 CORS_ALLOW_ALL_ORIGINS = True 
 CORS_ALLOW_CREDENTIALS = True
 # CSRF_COOKIE_SECURE = False
@@ -214,3 +205,11 @@ CORS_ALLOW_HEADERS = (
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+#  email configuration
+EMAIL_BACKENDS = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'jerrygodson3@gmail.com'
+EMAIL_HOST_PASSWORD = 'nqkdtsexrsaliend'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

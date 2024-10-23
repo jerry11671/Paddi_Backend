@@ -13,16 +13,18 @@ from drf_spectacular.views import SpectacularSwaggerView, SpectacularRedocView
 
 schema_view = get_swagger_view(title='MentalPaddy')
 
+url = 'api/v2'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('assessment/', include('assessment.urls')),
+    path(url + '/assessment/', include('assessment.urls')),
     # path('api_doc/', schema_view),
 
     path('schema/', SpectacularAPIView.as_view(), name='schema'),
     path('schema/doc/', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger-ui'),
     path('schema/redoc/', SpectacularRedocView.as_view(url_name='schema'), name='redoc'),
 
-    path('accounts/', include('accounts.urls')),
+    path(url + '/auth/', include('accounts.urls')),
     path('journal/', include('journal.urls')),
 ]
 
