@@ -35,8 +35,11 @@ class LoginView(GenericAPIView):
     def post(self, request, *args, **kwargs):
         email = request.data.get("email")   
         password = request.data.get('password')   
-
-        user = User.objects.get(email=email)
+        
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response({'status': False,'msg': 'Invalid email'}, status=status.HTTP_401_UNAUTHORIZED)
         
         if not user:
             return Response({'status': False, 'msg': 'Invalid email'}, status=status.HTTP_401_UNAUTHORIZED)
